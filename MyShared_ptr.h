@@ -10,6 +10,8 @@ class MyShared_ptr
     MyShared_ptr(const MyShared_ptr& ptr);
     MyShared_ptr(MyShared_ptr && ptr); // move constructor
     MyShared_ptr& operator=(MyShared_ptr & ptr); // copy assignment
+    MyShared_ptr& operator=(MyShared_ptr && ptr); // move assignment
+    int getCount const { return *m_ptrCounter;}
 
 };
 
@@ -29,12 +31,12 @@ template <class T>
 MyShared_ptr<T>& MyShared_ptr<T>::operator=(MyShared_ptr<T> & ptr) // copy assignment
 {
     (*m_ptrCounter)--;
-		if (*m_ptrCounter == 0)
-		{
-			if (m_ptr != nullptr) 
-				delete m_ptr;
-			delete m_ptrCounter;
-		}
+    if (*m_ptrCounter == 0)
+    {
+        if (m_ptr != nullptr) 
+            delete m_ptr;
+        delete m_ptrCounter;
+    }
     m_ptr = ptr.m_ptr;
     m_ptrCounter = ptr.m_ptrCounter;
     
@@ -46,9 +48,26 @@ MyShared_ptr<T>& MyShared_ptr<T>::operator=(MyShared_ptr<T> & ptr) // copy assig
 
 template<class T>
 MyShared_ptr<T>::MyShared_ptr(MyShared_ptr<T> && ptr) // move constructor
-	{
-		this->m_ptr = ptr.m_ptr; // share the underlying pointer
-		this->m_ptrCounter = ptr.m_ptrCounter;
+{
+    this->m_ptr = ptr.m_ptr; 
+    this->m_ptrCounter = ptr.m_ptrCounter;
 
-		ptr.m_ptr = ptr.m_ptrCounter = nullptr; // clean the dying object
-	}
+    ptr.m_ptr = ptr.m_ptrCounter = nullptr; 
+}
+
+template<class T>
+MyShared_ptr<T>& MyShared_ptr<T>::operator=(MyShared_ptr<T> && ptr) // move assignment
+{
+    (*m_ptrCounter)--;
+    if (*m_ptrCounter == 0)
+    {
+        if (m_ptr != nullptr) 
+            delete m_ptr;
+        delete m_ptrCounter;
+    }
+    
+    this->m_ptr = ptr.m_ptr; 
+    this->m_ptrCounter = ptr.m_ptrCounter;
+
+    ptr.m_ptr = ptr.m_ptrCounter = nullptr; 
+}
