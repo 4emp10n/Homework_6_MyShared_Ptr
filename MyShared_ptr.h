@@ -14,7 +14,7 @@ class MyShared_ptr
     int getCount() const { return *m_ptrCounter; }
     T* get() const { return this->m_ptr; }
     T* operator->() const { return this->m_ptr; }
-    T& operator*() const { return this->m_ptr; }
+    T& operator*() const { return *(this->m_ptr); }
     ~MyShared_ptr(); // destructor
 	
 };
