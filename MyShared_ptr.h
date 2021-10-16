@@ -12,6 +12,7 @@ class MyShared_ptr
     MyShared_ptr& operator=(MyShared_ptr & ptr); // copy assignment
     MyShared_ptr& operator=(MyShared_ptr && ptr); // move assignment
     int getCount const { return *m_ptrCounter;}
+    T* get() const{ return this->ptr; }
 
 };
 
