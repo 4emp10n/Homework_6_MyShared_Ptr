@@ -20,9 +20,9 @@ class MyShared_ptr
 };
 
 template<class T>
-MyShared_ptr<T>::MyShared_ptr(const MyShared_ptr& ptr)
+MyShared_ptr<T>::MyShared_ptr(const MyShared_ptr<T>& ptr)
 {
-    m_ptr = ptr;
+    m_ptr = ptr.m_ptr;
     m_ptrCounter = ptr.m_ptrCounter;
 
     if(ptr.m_ptrCounter != nullptr)
