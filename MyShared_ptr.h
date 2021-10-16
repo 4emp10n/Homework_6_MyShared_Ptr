@@ -15,7 +15,8 @@ class MyShared_ptr
     T* get() const { return this->m_ptr; }
     T* operator->() const { return this->m_ptr; }
     T& operator*() const { return this->m_ptr; }
-
+    ~MyShared_ptr(); // destructor
+	
 };
 
 template<class T>
@@ -73,4 +74,16 @@ MyShared_ptr<T>& MyShared_ptr<T>::operator=(MyShared_ptr<T> && ptr) // move assi
     this->m_ptrCounter = ptr.m_ptrCounter;
 
     ptr.m_ptr = ptr.m_ptrCounter = nullptr; 
+}
+
+template<class T>
+MyShared_ptr<T>::~MyShared_ptr()
+{
+    (*m_ptrCounter)--;
+    if (*m_ptrCounter == 0)
+    {
+        if (m_ptr != nullptr) 
+            delete m_ptr;
+        delete m_ptrCounter;
+    }
 }
